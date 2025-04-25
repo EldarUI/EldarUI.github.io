@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intellexa AI Chatbot</title>
+    <!-- Add Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         /* Base Styles */
         body {
@@ -68,6 +70,34 @@
         .message.ai .message-content {
             background-color: #f1f1f1;
             color: black;
+        }
+
+        /* Markdown-specific styles */
+        .message-content strong {
+            font-weight: bold;
+        }
+        
+        .message-content em {
+            font-style: italic;
+        }
+        
+        .message-content code {
+            font-family: monospace;
+            background-color: rgba(0,0,0,0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .message-content pre {
+            background-color: rgba(0,0,0,0.1);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .message-content pre code {
+            background-color: transparent;
+            padding: 0;
         }
 
         .ai-logo {
@@ -137,38 +167,6 @@
             margin-top: 20px;
             display: none;
         }
-
-        /* Settings Modal */
-        .settings-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .settings-modal h2 {
-            margin-top: 0;
-        }
-
-        .settings-modal button {
-            margin-top: 10px;
-            padding: 8px 16px;
-            background-color: #007AFF;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .settings-modal button:hover {
-            background-color: #0066CC;
-        }
     </style>
 </head>
 <body>
@@ -187,20 +185,23 @@
     <div class="troubleshooter" id="troubleshooter">Something went wrong! Try again later or check your internet connection.</div>
 </div>
 
-<!-- Settings Modal -->
-<div class="settings-modal" id="settingsModal">
-    <h2>Settings</h2>
-    <button onclick="clearChatHistory()">Clear Chat History</button>
-    <button onclick="closeSettings()">Close</button>
-</div>
-
 <script>
+    // Configure Marked.js
+    marked.setOptions({
+        breaks: true,
+        gfm: true,
+        highlight: function(code, lang) {
+            // In a real app, you'd add syntax highlighting here
+            return code;
+        }
+    });
+
     // AI Logo URL
     const aiLogoUrl = "https://gcdnb.pbrd.co/images/RorPZ4RHUDf6.png?o=1";
 
     // Gemini API Key - Replace with your actual API key
     const GEMINI_API_KEY = "AIzaSyCEfpAo5nRF01_YwBjCUdaJCvGwY0SJS1c";
-    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
     // Load past interactions from localStorage
     let pastInteractions = JSON.parse(localStorage.getItem("pastInteractions")) || [];
@@ -212,6 +213,13 @@
         }
     }
 
+    // Function to parse and sanitize Markdown
+    function parseMarkdown(content) {
+        // Basic sanitization (in a real app, use DOMPurify or similar)
+        const sanitized = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        return marked.parse(sanitized);
+    }
+
     // Function to send user messages and display AI responses
     async function sendMessage() {
         const userInput = document.getElementById('userInput').value.trim();
@@ -221,12 +229,12 @@
         try {
             if (userInput === "") return;
 
-            // Display user message
+            // Display user message (with Markdown parsing)
             const userMessage = document.createElement('div');
             userMessage.classList.add('message', 'user');
             const userMessageContent = document.createElement('div');
             userMessageContent.classList.add('message-content');
-            userMessageContent.textContent = userInput;
+            userMessageContent.innerHTML = parseMarkdown(userInput);
             userMessage.appendChild(userMessageContent);
             chatBox.appendChild(userMessage);
 
@@ -251,7 +259,9 @@
 
             // Fetch response from Gemini AI
             const response = await fetchGeminiResponse(userInput);
-            botMessageContent.textContent = response;
+            
+            // Parse AI response as Markdown
+            botMessageContent.innerHTML = parseMarkdown(response);
 
             // Save interaction to localStorage
             saveInteraction(userInput, response);
@@ -265,7 +275,7 @@
         }
     }
 
-    // Function to fetch response from Gemini AI (using Gemini 2.0 Flash)
+    // Function to fetch response from Gemini AI
     async function fetchGeminiResponse(userInput) {
         const requestBody = {
             contents: [
@@ -274,8 +284,7 @@
                         {
                             text: userInput
                         }
-                    ],
-                    role: "user"
+                    ]
                 }
             ]
         };
@@ -293,7 +302,7 @@
         }
 
         const data = await response.json();
-        return data.candidates[0].content.parts[0].text || "No response received";
+        return data.candidates[0].content.parts[0].text;
     }
 
     // Function to save interaction to localStorage
@@ -302,34 +311,20 @@
         localStorage.setItem("pastInteractions", JSON.stringify(pastInteractions));
     }
 
-    // Function to clear chat history
-    function clearChatHistory() {
-        localStorage.removeItem("pastInteractions");
-        pastInteractions = [];
-        const chatBox = document.getElementById('chatBox');
-        chatBox.innerHTML = ""; // Clear chat box
-        closeSettings();
-    }
-
-    // Function to close settings modal
-    function closeSettings() {
-        document.getElementById('settingsModal').style.display = 'none';
-    }
-
     // Load chat history when page loads
     window.onload = function() {
         const chatBox = document.getElementById('chatBox');
         pastInteractions.forEach(interaction => {
-            // Display user message
+            // Display user message (with Markdown)
             const userMessage = document.createElement('div');
             userMessage.classList.add('message', 'user');
             const userMessageContent = document.createElement('div');
             userMessageContent.classList.add('message-content');
-            userMessageContent.textContent = interaction.userInput;
+            userMessageContent.innerHTML = parseMarkdown(interaction.userInput);
             userMessage.appendChild(userMessageContent);
             chatBox.appendChild(userMessage);
 
-            // Display AI message
+            // Display AI message (with Markdown)
             const botMessage = document.createElement('div');
             botMessage.classList.add('message', 'ai');
             const aiLogo = document.createElement('img');
@@ -338,7 +333,7 @@
             botMessage.appendChild(aiLogo);
             const botMessageContent = document.createElement('div');
             botMessageContent.classList.add('message-content');
-            botMessageContent.textContent = interaction.aiResponse;
+            botMessageContent.innerHTML = parseMarkdown(interaction.aiResponse);
             botMessage.appendChild(botMessageContent);
             chatBox.appendChild(botMessage);
         });
