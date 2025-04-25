@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellexa AI Chatbot</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .chat-container {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Chat Box */
+        .chat-box {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.ai {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .message.user .message-content {
+            background-color: #007AFF;
+            color: white;
+        }
+
+        .message.ai .message-content {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        .ai-logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Input Container */
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 12px;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            background-color: #f1f1f1;
+            color: #333333;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            background-color: #e0e0e0;
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #007AFF;
+            border: none;
+            color: white;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background-color: #0066CC;
+        }
+
+        .send-btn::after {
+            content: '↑';
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        /* Troubleshooter Message */
+        .troubleshooter {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .settings-modal h2 {
+            margin-top: 0;
+        }
+
+        .settings-modal button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .settings-modal button:hover {
+            background-color: #0066CC;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <!-- Chat Box -->
+    <div class="chat-box" id="chatBox"></div>
+
+    <!-- Input Container -->
+    <div class="chat-input-container">
+        <input type="text" id="userInput" class="chat-input" placeholder="Type a message..." onkeydown="handleKeyPress(event)"/>
+        <button class="send-btn" onclick="sendMessage()"></button>
+    </div>
+
+    <!-- Troubleshooter Message -->
+    <div class="troubleshooter" id="troubleshooter">Something went wrong! Try again later or check your internet connection.</div>
+</div>
+
+<!-- Settings Modal -->
+<div class="settings-modal" id="settingsModal">
+    <h2>Settings</h2>
+    <button onclick="clearChatHistory()">Clear Chat History</button>
+    <button onclick="closeSettings()">Close</button>
+</div>
+
+<script>
+    // AI Logo URL
+    const aiLogoUrl = "https://gcdnb.pbrd.co/images/RorPZ4RHUDf6.png?o=1";
+
+    // Gemini API Key - Replace with your actual API key
+    const GEMINI_API_KEY = "AIzaSyC0xwU0I3NxC-q7YjJozVkvmMtihgaLZ9Y";
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+    // Load past interactions from localStorage
+    let pastInteractions = JSON.parse(localStorage.getItem("pastInteractions")) || [];
+
+    // Function to handle the "Enter" key press
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    }
+
+    // Function to send user messages and display AI responses
+    async function sendMessage() {
+        const userInput = document.getElementById('userInput').value.trim();
+        const chatBox = document.getElementById('chatBox');
+        const troubleshooter = document.getElementById('troubleshooter');
+
+        try {
+            if (userInput === "") return;
+
+            // Display user message
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user');
+            const userMessageContent = document.createElement('div');
+            userMessageContent.classList.add('message-content');
+            userMessageContent.textContent = userInput;
+            userMessage.appendChild(userMessageContent);
+            chatBox.appendChild(userMessage);
+
+            // Clear input
+            document.getElementById('userInput').value = "";
+
+            // Display AI response
+            const botMessage = document.createElement('div');
+            botMessage.classList.add('message', 'ai');
+            const aiLogo = document.createElement('img');
+            aiLogo.src = aiLogoUrl;
+            aiLogo.classList.add('ai-logo');
+            botMessage.appendChild(aiLogo);
+            const botMessageContent = document.createElement('div');
+            botMessageContent.classList.add('message-content');
+            botMessageContent.textContent = "Thinking...";
+            botMessage.appendChild(botMessageContent);
+            chatBox.appendChild(botMessage);
+
+            // Scroll to latest message
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Fetch response from Gemini AI
+            const response = await fetchGeminiResponse(userInput);
+            botMessageContent.textContent = response;
+
+            // Save interaction to localStorage
+            saveInteraction(userInput, response);
+
+            // Hide troubleshooter if response is successful
+            troubleshooter.style.display = 'none';
+        } catch (error) {
+            // Show troubleshooter message on error
+            troubleshooter.style.display = 'block';
+            console.error(error);
+        }
+    }
+
+    // Function to fetch response from Gemini AI (using Gemini 2.0 Flash)
+    async function fetchGeminiResponse(userInput) {
+        const requestBody = {
+            contents: [
+                {
+                    parts: [
+                        {
+                            text: userInput
+                        }
+                    ],
+                    role: "user"
+                }
+            ]
+        };
+
+        const response = await fetch(GEMINI_API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch response from Gemini AI");
+        }
+
+        const data = await response.json();
+        return data.candidates[0].content.parts[0].text || "No response received";
+    }
+
+    // Function to save interaction to localStorage
+    function saveInteraction(userInput, aiResponse) {
+        pastInteractions.push({ userInput, aiResponse });
+        localStorage.setItem("pastInteractions", JSON.stringify(pastInteractions));
+    }
+
+    // Function to clear chat history
+    function clearChatHistory() {
+        localStorage.removeItem("pastInteractions");
+        pastInteractions = [];
+        const chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML = ""; // Clear chat box
+        closeSettings();
+    }
+
+    // Function to close settings modal
+    function closeSettings() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    // Load chat history when page loads
+    window.onload = function() {
+        const chatBox = document.getElementById('chatBox');
+        pastInteractions.forEach(interaction => {
+            // Display user message
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user');
+            const userMessageContent = document.createElement('div');
+            userMessageContent.classList.add('message-content');
+            userMessageContent.textContent = interaction.userInput;
+            userMessage.appendChild(userMessageContent);
+            chatBox.appendChild(userMessage);
+
+            // Display AI message
+            const botMessage = document.createElement('div');
+            botMessage.classList.add('message', 'ai');
+            const aiLogo = document.createElement('img');
+            aiLogo.src = aiLogoUrl;
+            aiLogo.classList.add('ai-logo');
+            botMessage.appendChild(aiLogo);
+            const botMessageContent = document.createElement('div');
+            botMessageContent.classList.add('message-content');
+            botMessageContent.textContent = interaction.aiResponse;
+            botMessage.appendChild(botMessageContent);
+            chatBox.appendChild(botMessage);
+        });
+        
+        // Scroll to bottom
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+</script>
+
+</body>
+</html>
