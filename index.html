@@ -14,8 +14,10 @@
             font-family: 'Cal Sans', 'Poppins';
             background-color: white; /* Base light background */
             overflow-y: auto; /* Allow vertical scrolling */
-            min-height: 100vh; /* Ensure body is at least viewport height */
+            min-height: 100vh; /* Ensure body is at least viewport height for fixed background */
              position: relative; /* Needed for ::before positioning */
+             display: block; /* Standard block layout */
+             /* Removed initial flex centering from body */
         }
 
         /* Pseudo-element for the animated background (fixed to viewport) */
@@ -32,7 +34,6 @@
             background-repeat: no-repeat;
             animation: colorBlobMovement 40s ease-in-out infinite;
 
-            /* Initial state for background (less colorful for picker) */
             opacity: 0.5;
             filter: saturate(30%);
             transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out; /* Smooth transition for theme change */
@@ -46,7 +47,6 @@
             100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
         }
 
-        /* State when main content (and vibrant background) is visible */
         body.main-content-visible::before {
             opacity: 1;
             filter: saturate(100%);
@@ -54,35 +54,30 @@
 
         /* Common styles for buttons */
         .app-button-style {
+            background-color: #007AFF; /* Light Mode iOS Blue */
             border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             padding: 10px 20px;
             font-family: inherit;
             font-size: 1rem;
             cursor: pointer;
-             /* Light Mode iOS Blue Text */
-            color: #fff;
+            color: #fff; /* White Text */
             text-shadow: none;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
-            text-decoration: none; /* Remove underline from links */
-             display: inline-block; /* Default display */
-
-             /* Light Mode iOS Blue */
-            background-color: #007AFF;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .app-button-style:hover {
-             /* Darker Light Mode iOS Blue on hover */
             background-color: #005bb5;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             transform: translateY(-2px);
         }
 
         .app-button-style:active {
-             /* Even Darker Light Mode iOS Blue on active */
             background-color: #004499;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             transform: translateY(0);
@@ -91,7 +86,8 @@
 
         /* Styles for the language picker container */
         #language-picker {
-            background: rgba(255, 255, 255, 0.9);
+            /* Adjusted transparency */
+            background: rgba(255, 255, 255, 0.6); /* More transparent */
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 20px;
@@ -99,7 +95,7 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.3);
             text-align: center;
-            color: #333; /* Light Mode Text */
+            color: #333;
             position: relative;
             z-index: 2;
             max-width: 400px;
@@ -109,6 +105,12 @@
             visibility: hidden;
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
             pointer-events: none;
+
+             /* Centering within body when visible */
+             position: fixed; /* Use fixed to center in viewport */
+             top: 50%; left: 50%;
+             transform: translate(-50%, -50%);
+             margin: auto; /* Override potential margin */
         }
 
          #language-picker.visible {
@@ -119,28 +121,26 @@
 
         /* Specific styles for language buttons */
         #language-picker button.app-button-style {
-             margin: 10px 5px; /* Margin between language buttons */
+             margin: 10px 5px;
         }
 
 
         /* Styles for the main content container (scrollable, centered) */
         #main-content {
-            /* Adjusted for scrollable body and centering */
-            max-width: 700px; /* Max width for content block */
-            margin: 40px auto; /* Auto horizontal margin for centering, add vertical margin */
-            padding: 20px; /* Inner padding */
-            position: relative; /* Keep relative for z-index */
-            z-index: 1; /* Above background */
+            max-width: 700px;
+            /* Reduced top margin, added bottom margin for scrollable area */
+            margin: 30px auto 40px auto;
+            padding: 0; /* Remove padding from this wrapper */
+            position: relative;
+            z-index: 1;
 
-            /* Initial state for animation */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
             pointer-events: none;
 
-            /* Reset display properties from previous versions */
-             display: block;
-             min-height: auto;
+            display: block;
+            min-height: auto;
         }
 
          #main-content.visible {
@@ -150,26 +150,28 @@
         }
 
         .about-container {
-            background: rgba(255, 255, 255, 0.8); /* Light Mode Semi-transparent White */
+            /* Adjusted transparency */
+            background: rgba(255, 255, 255, 0.6); /* More transparent */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            /* Increased bottom padding */
+             /* Increased bottom padding */
             padding: 30px 30px 40px 30px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            max-width: 600px; /* Max width inside the main-content block */
-            width: 100%; /* Take full width of parent (main-content padding will constrain) */
+            max-width: 600px;
+            width: 100%;
             box-sizing: border-box;
             text-align: center;
-            color: #333; /* Light Mode Text */
+            color: #333;
             position: relative;
             z-index: 1;
-             /* Keep flex properties for internal centering */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Align items to start vertically */
+            justify-content: flex-start;
+             /* Removed bottom margin as padding handles space inside */
+            margin-bottom: 0;
         }
 
         .about-container .profile-gif {
@@ -184,7 +186,7 @@
         }
 
         .about-container h1 {
-            color: #000; /* Light Mode Black Heading */
+            color: #000;
             margin-top: 0;
             margin-bottom: 20px;
         }
@@ -206,7 +208,7 @@
         /* Specific styles for social buttons */
         .social-button.app-button-style {
              display: block;
-             margin: 5px auto; /* Vertical margin between stacked social buttons */
+             margin: 5px auto;
         }
 
 
@@ -219,77 +221,60 @@
         /* --- Dark Mode Styles --- */
         @media (prefers-color-scheme: dark) {
             body {
-                background-color: #121212; /* Dark background color */
-                color: #e0e0e0; /* Light text color */
+                background-color: #121212;
+                color: #e0e0e0;
             }
 
             body::before {
-                 /* Adjust background blobs for dark mode */
-                 /* Reduce brightness/opacity or change colors */
-                opacity: 0.3; /* Make blobs less prominent */
-                filter: saturate(50%) brightness(80%); /* Reduce saturation and brightness */
-                 /* Optional: Change blob colors for dark mode */
-                 /* background-image: radial-gradient(circle at ..., rgba(darker color), ...); */
+                opacity: 0.3;
+                filter: saturate(50%) brightness(80%);
             }
 
             body.main-content-visible::before {
-                 /* Full opacity/brightness for main content in dark mode */
-                opacity: 0.6; /* Still less prominent than light mode */
-                 filter: saturate(80%) brightness(90%);
+                opacity: 0.6;
+                filter: saturate(80%) brightness(90%);
             }
 
-
             .app-button-style {
-                 /* Dark Mode iOS Blue */
-                background-color: #0A84FF;
-                color: #fff; /* White text */
-                border-color: rgba(255, 255, 255, 0.5); /* Subtle lighter border */
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Darker shadow */
+                background-color: #0A84FF; /* Dark Mode iOS Blue */
+                color: #fff;
+                border-color: rgba(255, 255, 255, 0.5);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
             }
 
             .app-button-style:hover {
-                 /* Darker Dark Mode iOS Blue on hover */
                 background-color: #3897FF;
                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             }
 
             .app-button-style:active {
-                 /* Even Darker Dark Mode iOS Blue on active */
                 background-color: #005ecb;
                  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
             }
 
-
             #language-picker {
-                background: rgba(30, 30, 30, 0.9); /* Dark semi-transparent background */
-                border-color: rgba(255, 255, 255, 0.1); /* Lighter border */
-                color: #e0e0e0; /* Light text */
-                 box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); /* Darker shadow */
+                 /* Adjusted transparency for dark mode */
+                background: rgba(30, 30, 30, 0.7); /* More transparent */
+                border-color: rgba(255, 255, 255, 0.2);
+                color: #e0e0e0;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
             }
 
-             #main-content {
-                /* Adjust padding if needed for dark mode */
-             }
-
-
             .about-container {
-                background: rgba(30, 30, 30, 0.8); /* Dark semi-transparent background */
-                border-color: rgba(255, 255, 255, 0.1); /* Lighter border */
-                color: #e0e0e0; /* Light text */
-                 box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); /* Darker shadow */
+                 /* Adjusted transparency for dark mode */
+                background: rgba(30, 30, 30, 0.7); /* More transparent */
+                border-color: rgba(255, 255, 255, 0.2);
+                color: #e0e0e0;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
             }
 
             .about-container .profile-gif {
-                 border-color: rgba(255, 255, 255, 0.4); /* Lighter border */
-                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Darker shadow */
+                 border-color: rgba(255, 255, 255, 0.4);
+                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
             }
 
             .about-container h1 {
-                color: #fff; /* White Heading in Dark Mode */
-            }
-
-            .about-container:hover {
-                /* Keep hover effect */
+                color: #fff;
             }
         }
     </style>
@@ -377,14 +362,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             const storedLanguage = localStorage.getItem('userLanguage');
 
-            // Adjust initial display settings for scrollable layout
-            langPicker.style.display = 'block'; // Language picker is centered by body flex when visible
-            mainContent.style.display = 'block'; // Main content is block for scroll flow
-             body.style.display = 'flex'; /* Use flex on body initially to center picker */
-             body.style.flexDirection = 'column';
-             body.style.justifyContent = 'center';
-             body.style.alignItems = 'center';
-
+            // Set initial display based on which section will be shown
+            // Picker is fixed and centered, main content is block and centered via margin
+            langPicker.style.display = 'block';
+            mainContent.style.display = 'block';
 
             langPicker.classList.remove('visible');
             mainContent.classList.remove('visible');
@@ -394,15 +375,10 @@
                 setLanguage(storedLanguage);
                 body.classList.add('main-content-visible');
                 mainContent.classList.add('visible');
-                 // Revert body display to standard for scrolling if content overflows
-                 body.style.display = 'block';
-                 body.style.minHeight = '100vh'; /* Ensure body takes full height for background */
             } else {
                 showLanguagePicker();
-                 // Keep body display flex for centering the picker
             }
 
-            // Add event listeners to language buttons
             langButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const selectedLanguage = button.getAttribute('data-lang-code');
@@ -410,9 +386,6 @@
                         localStorage.setItem('userLanguage', selectedLanguage);
                         setLanguage(selectedLanguage);
                         showMainContent();
-                         // Revert body display to standard for scrolling
-                         body.style.display = 'block';
-                         body.style.minHeight = '100vh'; /* Ensure body takes full height for background */
                     }
                 });
             });
