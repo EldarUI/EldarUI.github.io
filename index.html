@@ -7,22 +7,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* --- Base Styles (Light Mode Default) --- */
         body {
             margin: 0;
+            padding: 0 20px; /* Horizontal padding */
             font-family: 'Cal Sans', 'Poppins';
-            background-color: white;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
+            background-color: white; /* Base light background */
+            overflow-y: auto; /* Allow vertical scrolling */
+            min-height: 100vh; /* Ensure body is at least viewport height */
+             position: relative; /* Needed for ::before positioning */
         }
 
+        /* Pseudo-element for the animated background (fixed to viewport) */
         body::before {
             content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            position: fixed; /* Fixed to viewport */
+            top: 0; left: 0; width: 100%; height: 100%; z-index: -1; /* Behind other content */
             background-image:
                 radial-gradient(circle at 20% 30%, #a78bfa 0%, rgba(167, 139, 250, 0) 50%),
                 radial-gradient(circle at 70% 40%, #f5d6c0 0%, rgba(245, 214, 192, 0) 50%),
@@ -32,9 +32,10 @@
             background-repeat: no-repeat;
             animation: colorBlobMovement 40s ease-in-out infinite;
 
+            /* Initial state for background (less colorful for picker) */
             opacity: 0.5;
             filter: saturate(30%);
-            transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out;
+            transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out; /* Smooth transition for theme change */
         }
 
         @keyframes colorBlobMovement {
@@ -45,11 +46,50 @@
             100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
         }
 
+        /* State when main content (and vibrant background) is visible */
         body.main-content-visible::before {
             opacity: 1;
             filter: saturate(100%);
         }
 
+        /* Common styles for buttons */
+        .app-button-style {
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+             /* Light Mode iOS Blue Text */
+            color: #fff;
+            text-shadow: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            text-decoration: none; /* Remove underline from links */
+             display: inline-block; /* Default display */
+
+             /* Light Mode iOS Blue */
+            background-color: #007AFF;
+        }
+
+        .app-button-style:hover {
+             /* Darker Light Mode iOS Blue on hover */
+            background-color: #005bb5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .app-button-style:active {
+             /* Even Darker Light Mode iOS Blue on active */
+            background-color: #004499;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+        }
+
+
+        /* Styles for the language picker container */
         #language-picker {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(15px);
@@ -59,7 +99,7 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.3);
             text-align: center;
-            color: #333;
+            color: #333; /* Light Mode Text */
             position: relative;
             z-index: 2;
             max-width: 400px;
@@ -77,101 +117,59 @@
              pointer-events: auto;
          }
 
-        /* Common styles for buttons */
-        .app-button-style {
-            /* Solid background color */
-            background-color: #3582ff; /* The specified blue color */
-            /* Subtle white border */
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-family: inherit;
-            font-size: 1rem;
-            cursor: pointer;
-            color: #fff; /* White text for contrast */
-            text-shadow: none;
-            /* Subtle outer shadow */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            text-decoration: none; /* Remove underline from links */
-             display: inline-block; /* Default display, adjusted by parent/specific classes */
-        }
-
-        .app-button-style:hover {
-            background-color: #4c90ff; /* Slightly lighter blue on hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .app-button-style:active {
-            background-color: #2870e0; /* Slightly darker blue on active */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-            transform: translateY(0);
-        }
-
         /* Specific styles for language buttons */
         #language-picker button.app-button-style {
              margin: 10px 5px; /* Margin between language buttons */
         }
 
-        /* Styles for the social media buttons container */
-        .social-buttons {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
 
-        /* Specific styles for social buttons (overrides inline-block from common style) */
-        .social-button.app-button-style {
-             display: block;
-             margin: 5px auto; /* Vertical margin between stacked social buttons */
-        }
-
-
+        /* Styles for the main content container (scrollable, centered) */
         #main-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 1;
+            /* Adjusted for scrollable body and centering */
+            max-width: 700px; /* Max width for content block */
+            margin: 40px auto; /* Auto horizontal margin for centering, add vertical margin */
+            padding: 20px; /* Inner padding */
+            position: relative; /* Keep relative for z-index */
+            z-index: 1; /* Above background */
+
+            /* Initial state for animation */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
             pointer-events: none;
+
+            /* Reset display properties from previous versions */
+             display: block;
+             min-height: auto;
         }
 
-        #main-content.visible {
+         #main-content.visible {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
         }
 
-
         .about-container {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.8); /* Light Mode Semi-transparent White */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 30px;
+            /* Increased bottom padding */
+            padding: 30px 30px 40px 30px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            max-width: 600px;
-            width: 90%;
+            max-width: 600px; /* Max width inside the main-content block */
+            width: 100%; /* Take full width of parent (main-content padding will constrain) */
             box-sizing: border-box;
             text-align: center;
-            color: #333;
+            color: #333; /* Light Mode Text */
             position: relative;
             z-index: 1;
+             /* Keep flex properties for internal centering */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Align items to start vertically */
         }
 
         .about-container .profile-gif {
@@ -186,7 +184,7 @@
         }
 
         .about-container h1 {
-            color: #000;
+            color: #000; /* Light Mode Black Heading */
             margin-top: 0;
             margin-bottom: 20px;
         }
@@ -196,9 +194,103 @@
             margin-bottom: 20px;
         }
 
+         /* Styles for the social media buttons container */
+        .social-buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Specific styles for social buttons */
+        .social-button.app-button-style {
+             display: block;
+             margin: 5px auto; /* Vertical margin between stacked social buttons */
+        }
+
+
         .about-container:hover {
             transform: translateY(-5px);
             transition: transform 0.3s ease;
+        }
+
+
+        /* --- Dark Mode Styles --- */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212; /* Dark background color */
+                color: #e0e0e0; /* Light text color */
+            }
+
+            body::before {
+                 /* Adjust background blobs for dark mode */
+                 /* Reduce brightness/opacity or change colors */
+                opacity: 0.3; /* Make blobs less prominent */
+                filter: saturate(50%) brightness(80%); /* Reduce saturation and brightness */
+                 /* Optional: Change blob colors for dark mode */
+                 /* background-image: radial-gradient(circle at ..., rgba(darker color), ...); */
+            }
+
+            body.main-content-visible::before {
+                 /* Full opacity/brightness for main content in dark mode */
+                opacity: 0.6; /* Still less prominent than light mode */
+                 filter: saturate(80%) brightness(90%);
+            }
+
+
+            .app-button-style {
+                 /* Dark Mode iOS Blue */
+                background-color: #0A84FF;
+                color: #fff; /* White text */
+                border-color: rgba(255, 255, 255, 0.5); /* Subtle lighter border */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Darker shadow */
+            }
+
+            .app-button-style:hover {
+                 /* Darker Dark Mode iOS Blue on hover */
+                background-color: #3897FF;
+                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            }
+
+            .app-button-style:active {
+                 /* Even Darker Dark Mode iOS Blue on active */
+                background-color: #005ecb;
+                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            }
+
+
+            #language-picker {
+                background: rgba(30, 30, 30, 0.9); /* Dark semi-transparent background */
+                border-color: rgba(255, 255, 255, 0.1); /* Lighter border */
+                color: #e0e0e0; /* Light text */
+                 box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); /* Darker shadow */
+            }
+
+             #main-content {
+                /* Adjust padding if needed for dark mode */
+             }
+
+
+            .about-container {
+                background: rgba(30, 30, 30, 0.8); /* Dark semi-transparent background */
+                border-color: rgba(255, 255, 255, 0.1); /* Lighter border */
+                color: #e0e0e0; /* Light text */
+                 box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); /* Darker shadow */
+            }
+
+            .about-container .profile-gif {
+                 border-color: rgba(255, 255, 255, 0.4); /* Lighter border */
+                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Darker shadow */
+            }
+
+            .about-container h1 {
+                color: #fff; /* White Heading in Dark Mode */
+            }
+
+            .about-container:hover {
+                /* Keep hover effect */
+            }
         }
     </style>
 </head>
@@ -247,15 +339,13 @@
 
         const langPicker = document.getElementById('language-picker');
         const mainContent = document.getElementById('main-content');
-        const langButtons = langPicker.querySelectorAll('button'); // Select buttons inside picker
-        const socialButtons = mainContent.querySelectorAll('.social-button'); // Select social buttons/links
+        const langButtons = langPicker.querySelectorAll('button');
         const body = document.body;
 
         function setLanguage(lang) {
             document.querySelectorAll('[data-lang]').forEach(element => {
                 const key = element.getAttribute('data-lang');
                  if (translations[lang] && translations[lang][key]) {
-                    // Check for button or anchor tag
                     if (element.tagName === 'BUTTON' || element.tagName === 'A') {
                         element.innerText = translations[lang][key];
                     } else {
@@ -287,8 +377,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             const storedLanguage = localStorage.getItem('userLanguage');
 
-            langPicker.style.display = 'block'; // Set initial display for transitions
-            mainContent.style.display = 'flex'; // Set initial display for transitions
+            // Adjust initial display settings for scrollable layout
+            langPicker.style.display = 'block'; // Language picker is centered by body flex when visible
+            mainContent.style.display = 'block'; // Main content is block for scroll flow
+             body.style.display = 'flex'; /* Use flex on body initially to center picker */
+             body.style.flexDirection = 'column';
+             body.style.justifyContent = 'center';
+             body.style.alignItems = 'center';
+
+
             langPicker.classList.remove('visible');
             mainContent.classList.remove('visible');
 
@@ -297,11 +394,15 @@
                 setLanguage(storedLanguage);
                 body.classList.add('main-content-visible');
                 mainContent.classList.add('visible');
+                 // Revert body display to standard for scrolling if content overflows
+                 body.style.display = 'block';
+                 body.style.minHeight = '100vh'; /* Ensure body takes full height for background */
             } else {
                 showLanguagePicker();
+                 // Keep body display flex for centering the picker
             }
 
-            // Event listeners for language buttons
+            // Add event listeners to language buttons
             langButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const selectedLanguage = button.getAttribute('data-lang-code');
@@ -309,11 +410,12 @@
                         localStorage.setItem('userLanguage', selectedLanguage);
                         setLanguage(selectedLanguage);
                         showMainContent();
+                         // Revert body display to standard for scrolling
+                         body.style.display = 'block';
+                         body.style.minHeight = '100vh'; /* Ensure body takes full height for background */
                     }
                 });
             });
-
-            // No specific JS needed for social buttons (handled by A tag href)
         });
     </script>
 
