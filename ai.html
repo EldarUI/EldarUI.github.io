@@ -3,345 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intellexa AI Chatbot</title>
-    <!-- Add Marked.js for Markdown parsing -->
+    <title>Intellexa AI</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* Base Styles */
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary: #007AFF;
+            --bg: #F5F7FA;
+            --msg-bg-user: var(--primary);
+            --msg-bg-ai: #E9ECEF;
+            --text: #212529;
+            --input-bg: #FFFFFF;
+            --radius: 12px;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: white;
-            color: black;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            padding: 10px;
         }
 
         .chat-container {
-            width: 100vw;
+            width: 100%;
+            max-width: 800px;
             height: 100vh;
-            background-color: white;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
+            background: #FFFFFF;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Chat Box */
         .chat-box {
-            flex-grow: 1;
+            flex: 1;
             overflow-y: auto;
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 12px;
+            padding: 15px;
+            scroll-behavior: smooth;
         }
 
         .message {
             display: flex;
-            align-items: flex-start;
             margin-bottom: 15px;
+            gap: 10px;
         }
 
         .message.user {
             justify-content: flex-end;
         }
 
-        .message.ai {
-            justify-content: flex-start;
-        }
-
         .message-content {
             max-width: 70%;
-            padding: 10px;
-            border-radius: 12px;
+            padding: 10px 15px;
+            border-radius: var(--radius);
             font-size: 16px;
+            line-height: 1.5;
         }
 
         .message.user .message-content {
-            background-color: #007AFF;
-            color: white;
+            background: var(--msg-bg-user);
+            color: #FFFFFF;
         }
 
         .message.ai .message-content {
-            background-color: #f1f1f1;
-            color: black;
-        }
-
-        /* Markdown-specific styles */
-        .message-content strong {
-            font-weight: bold;
-        }
-        
-        .message-content em {
-            font-style: italic;
-        }
-        
-        .message-content code {
-            font-family: monospace;
-            background-color: rgba(0,0,0,0.1);
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-        
-        .message-content pre {
-            background-color: rgba(0,0,0,0.1);
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        
-        .message-content pre code {
-            background-color: transparent;
-            padding: 0;
+            background: var(--msg-bg-ai);
         }
 
         .ai-logo {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            margin-right: 10px;
         }
 
-        /* Input Container */
         .chat-input-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
             padding: 10px;
-            background-color: #f1f1f1;
-            border-radius: 12px;
+            background: var(--input-bg);
+            border-top: 1px solid #E9ECEF;
         }
 
         .chat-input {
-            flex-grow: 1;
-            padding: 12px;
-            border-radius: 12px;
+            width: 100%;
+            padding: 10px;
             border: none;
+            border-radius: var(--radius);
             font-size: 16px;
-            background-color: #f1f1f1;
-            color: #333333;
+            background: #E9ECEF;
             outline: none;
+            transition: background 0.2s;
         }
 
         .chat-input:focus {
-            background-color: #e0e0e0;
+            background: #DDE2E8;
         }
 
         .send-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background-color: #007AFF;
+            background: var(--primary);
             border: none;
-            color: white;
-            font-size: 20px;
-            display: flex;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background 0.2s;
         }
 
         .send-btn:hover {
-            background-color: #0066CC;
+            background: #005BB5;
         }
 
         .send-btn::after {
             content: '↑';
-            font-size: 18px;
-            line-height: 1;
+            font-size: 16px;
         }
 
-        /* Troubleshooter Message */
         .troubleshooter {
-            background-color: #ff4d4d;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-top: 20px;
             display: none;
+            background: #FF4D4D;
+            color: #FFFFFF;
+            padding: 10px;
+            border-radius: var(--radius);
+            margin: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .message-content strong { font-weight: 700; }
+        .message-content em { font-style: italic; }
+        .message-content code {
+            font-family: 'SF Mono', monospace;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .message-content pre {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        .message-content pre code {
+            background: none;
+            padding: 0;
         }
     </style>
 </head>
 <body>
-
-<div class="chat-container">
-    <!-- Chat Box -->
-    <div class="chat-box" id="chatBox"></div>
-
-    <!-- Input Container -->
-    <div class="chat-input-container">
-        <input type="text" id="userInput" class="chat-input" placeholder="Type a message..." onkeydown="handleKeyPress(event)"/>
-        <button class="send-btn" onclick="sendMessage()"></button>
+    <div class="chat-container">
+        <div class="chat-box" id="chatBox"></div>
+        <div class="chat-input-container">
+            <input type="text" id="userInput" class="chat-input" placeholder="Type a message...">
+            <button class="send-btn"></button>
+        </div>
+        <div class="troubleshooter" id="troubleshooter">Something went wrong! Please try again.</div>
     </div>
 
-    <!-- Troubleshooter Message -->
-    <div class="troubleshooter" id="troubleshooter">Something went wrong! Try again later or check your internet connection.</div>
-</div>
+    <script>
+        marked.setOptions({ breaks: true, gfm: true });
 
-<script>
-    // Configure Marked.js
-    marked.setOptions({
-        breaks: true,
-        gfm: true,
-        highlight: function(code, lang) {
-            // In a real app, you'd add syntax highlighting here
-            return code;
-        }
-    });
-
-    // AI Logo URL
-    const aiLogoUrl = "https://gcdnb.pbrd.co/images/RorPZ4RHUDf6.png?o=1";
-
-    // Gemini API Key - Replace with your actual API key
-    const GEMINI_API_KEY = "AIzaSyCEfpAo5nRF01_YwBjCUdaJCvGwY0SJS1c";
-    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-    // Load past interactions from localStorage
-    let pastInteractions = JSON.parse(localStorage.getItem("pastInteractions")) || [];
-
-    // Function to handle the "Enter" key press
-    function handleKeyPress(event) {
-        if (event.key === "Enter") {
-            sendMessage();
-        }
-    }
-
-    // Function to parse and sanitize Markdown
-    function parseMarkdown(content) {
-        // Basic sanitization (in a real app, use DOMPurify or similar)
-        const sanitized = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        return marked.parse(sanitized);
-    }
-
-    // Function to send user messages and display AI responses
-    async function sendMessage() {
-        const userInput = document.getElementById('userInput').value.trim();
+        const aiLogoUrl = "https://gcdnb.pbrd.co/images/RorPZ4RHUDf6.png?o=1";
+        const GEMINI_API_KEY = "AIzaSyCEfpAo5nRF01_YwBjCUdaJCvGwY0SJS1c";
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
         const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
         const troubleshooter = document.getElementById('troubleshooter');
+        let pastInteractions = JSON.parse(localStorage.getItem('pastInteractions')) || [];
 
-        try {
-            if (userInput === "") return;
+        const parseMarkdown = (text) => marked.parse(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 
-            // Display user message (with Markdown parsing)
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user');
-            const userMessageContent = document.createElement('div');
-            userMessageContent.classList.add('message-content');
-            userMessageContent.innerHTML = parseMarkdown(userInput);
-            userMessage.appendChild(userMessageContent);
-            chatBox.appendChild(userMessage);
-
-            // Clear input
-            document.getElementById('userInput').value = "";
-
-            // Display AI response
-            const botMessage = document.createElement('div');
-            botMessage.classList.add('message', 'ai');
-            const aiLogo = document.createElement('img');
-            aiLogo.src = aiLogoUrl;
-            aiLogo.classList.add('ai-logo');
-            botMessage.appendChild(aiLogo);
-            const botMessageContent = document.createElement('div');
-            botMessageContent.classList.add('message-content');
-            botMessageContent.textContent = "Thinking...";
-            botMessage.appendChild(botMessageContent);
-            chatBox.appendChild(botMessage);
-
-            // Scroll to latest message
+        const addMessage = (content, isUser) => {
+            const message = document.createElement('div');
+            message.classList.add('message', isUser ? 'user' : 'ai');
+            if (!isUser) {
+                const logo = document.createElement('img');
+                logo.src = aiLogoUrl;
+                logo.classList.add('ai-logo');
+                message.appendChild(logo);
+            }
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('message-content');
+            contentDiv.innerHTML = parseMarkdown(content);
+            message.appendChild(contentDiv);
+            chatBox.appendChild(message);
             chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Fetch response from Gemini AI
-            const response = await fetchGeminiResponse(userInput);
-            
-            // Parse AI response as Markdown
-            botMessageContent.innerHTML = parseMarkdown(response);
-
-            // Save interaction to localStorage
-            saveInteraction(userInput, response);
-
-            // Hide troubleshooter if response is successful
-            troubleshooter.style.display = 'none';
-        } catch (error) {
-            // Show troubleshooter message on error
-            troubleshooter.style.display = 'block';
-            console.error(error);
-        }
-    }
-
-    // Function to fetch response from Gemini AI
-    async function fetchGeminiResponse(userInput) {
-        const requestBody = {
-            contents: [
-                {
-                    parts: [
-                        {
-                            text: userInput
-                        }
-                    ]
-                }
-            ]
         };
 
-        const response = await fetch(GEMINI_API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(requestBody)
+        const saveInteraction = (userText, aiText) => {
+            pastInteractions.push({ userInput: userText, aiResponse: aiText });
+            localStorage.setItem('pastInteractions', JSON.stringify(pastInteractions horm));
+        };
+
+        const fetchGeminiResponse = async (text) => {
+            const response = await fetch(GEMINI_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text }] }] }),
+            });
+            if (!response.ok) throw new Error('API request failed');
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        };
+
+        const sendMessage = async () => {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            addMessage(text, true);
+            userInput.value = '';
+            troubleshooter.style.display = 'none';
+
+            try {
+                addMessage('Thinking...', false);
+                const aiResponse = await fetchGeminiResponse(text);
+                chatBox.lastChild.querySelector('.message-content').innerHTML = parseMarkdown(aiResponse);
+                saveInteraction(text, aiResponse);
+            } catch (error) {
+                troubleshooter.style.display = 'block';
+                console.error(error);
+            }
+        };
+
+        userInput.addEventListener('keydown', (e) => e.key === 'Enter' && sendMessage());
+        document.querySelector('.send-btn').addEventListener('click', sendMessage);
+
+        pastInteractions.forEach(({ userInput, aiResponse }) => {
+            addMessage(userInput, true);
+            addMessage(aiResponse, false);
         });
-
-        if (!response.ok) {
-            throw new Error("Failed to fetch response from Gemini AI");
-        }
-
-        const data = await response.json();
-        return data.candidates[0].content.parts[0].text;
-    }
-
-    // Function to save interaction to localStorage
-    function saveInteraction(userInput, aiResponse) {
-        pastInteractions.push({ userInput, aiResponse });
-        localStorage.setItem("pastInteractions", JSON.stringify(pastInteractions));
-    }
-
-    // Load chat history when page loads
-    window.onload = function() {
-        const chatBox = document.getElementById('chatBox');
-        pastInteractions.forEach(interaction => {
-            // Display user message (with Markdown)
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user');
-            const userMessageContent = document.createElement('div');
-            userMessageContent.classList.add('message-content');
-            userMessageContent.innerHTML = parseMarkdown(interaction.userInput);
-            userMessage.appendChild(userMessageContent);
-            chatBox.appendChild(userMessage);
-
-            // Display AI message (with Markdown)
-            const botMessage = document.createElement('div');
-            botMessage.classList.add('message', 'ai');
-            const aiLogo = document.createElement('img');
-            aiLogo.src = aiLogoUrl;
-            aiLogo.classList.add('ai-logo');
-            botMessage.appendChild(aiLogo);
-            const botMessageContent = document.createElement('div');
-            botMessageContent.classList.add('message-content');
-            botMessageContent.innerHTML = parseMarkdown(interaction.aiResponse);
-            botMessage.appendChild(botMessageContent);
-            chatBox.appendChild(botMessage);
-        });
-        
-        // Scroll to bottom
         chatBox.scrollTop = chatBox.scrollHeight;
-    };
-</script>
-
+    </script>
 </body>
 </html>
