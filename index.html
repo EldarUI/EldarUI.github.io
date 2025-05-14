@@ -3,57 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Clone</title>
+    <title>Next-Gen Platform</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="logo">Linear</div>
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo-gradient">NextGen</div>
             <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#docs">Docs</a>
-                <a href="#contact">Contact</a>
+                <a href="#product" class="hvr-underline">Product</a>
+                <a href="#solutions" class="hvr-underline">Solutions</a>
+                <a href="#resources" class="hvr-underline">Resources</a>
             </div>
-            <div class="nav-buttons">
-                <button class="btn login">Log in</button>
-                <button class="btn primary">Sign up</button>
+            <div class="nav-actions">
+                <button class="btn ghost">Contact</button>
+                <button class="btn gradient-btn">Get Started</button>
             </div>
         </div>
     </nav>
 
     <main>
-        <section class="hero">
+        <section class="hero-section">
+            <div class="grid-background"></div>
             <div class="hero-content">
-                <h1 class="hero-title">Build your<br>product vision</h1>
-                <p class="hero-subtitle">The complete tool for modern product teams</p>
-                <div class="hero-buttons">
-                    <button class="btn primary lg">Get started</button>
-                    <button class="btn outline lg">Watch video</button>
+                <h1 class="animated-heading">
+                    <span class="gradient-text">Build the Future</span><br>
+                    With Intelligent Design
+                </h1>
+                <p class="hero-subtitle">Transform your workflow with AI-powered collaboration</p>
+                <div class="cta-container">
+                    <button class="btn gradient-btn xl">Start Free Trial</button>
+                    <button class="btn outline-white xl">Watch Demo</button>
+                </div>
+            </div>
+            <div class="floating-cards">
+                <div class="card glass-card" data-tilt>
+                    <div class="card-icon">🚀</div>
+                    <h3>AI Automation</h3>
+                    <p>Smart workflow optimization</p>
+                </div>
+                <div class="card glass-card" data-tilt>
+                    <div class="card-icon">🌐</div>
+                    <h3>Global Sync</h3>
+                    <p>Real-time collaboration</p>
                 </div>
             </div>
         </section>
 
-        <section class="features" id="features">
-            <div class="feature-card">
-                <h3>Lightning fast</h3>
-                <p>Built for speed and efficiency</p>
-                <div class="card-anim"></div>
-            </div>
-            <div class="feature-card">
-                <h3>Modern UI</h3>
-                <p>Clean and intuitive interface</p>
-                <div class="card-anim"></div>
-            </div>
-            <div class="feature-card">
-                <h3>Collaborate</h3>
-                <p>Real-time teamwork</p>
-                <div class="card-anim"></div>
+        <section class="features-section">
+            <div class="feature-grid">
+                <div class="feature-card reveal">
+                    <h3>Smart Integration</h3>
+                    <p>Connect with your favorite tools</p>
+                    <div class="feature-gradient"></div>
+                </div>
+                <div class="feature-card reveal">
+                    <h3>Security First</h3>
+                    <p>Enterprise-grade protection</p>
+                    <div class="feature-gradient"></div>
+                </div>
             </div>
         </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
     <script src="assets/script.js"></script>
 </body>
 </html>
