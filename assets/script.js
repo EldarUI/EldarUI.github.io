@@ -1,4 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu functionality
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const navLinks = document.getElementById('navLinks');
+    
+    hamburgerMenu.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        
+        // Toggle body scroll when menu is open
+        if (navLinks.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Close menu when clicking on a link (for single page navigation)
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks.classList.contains('active')) {
+                hamburgerMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
     // Scroll animations
     const animateOnScroll = () => {
         const elements = document.querySelectorAll('.feature-card, .section-header');
@@ -27,27 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Run on scroll
     window.addEventListener('scroll', animateOnScroll);
     
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    const navActions = document.querySelector('.nav-actions');
-    
-    mobileMenuBtn.addEventListener('click', () => {
-        const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-        
-        if (isExpanded) {
-            mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            navLinks.style.display = 'none';
-            navActions.style.display = 'none';
-        } else {
-            mobileMenuBtn.setAttribute('aria-expanded', 'true');
-            mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
-            navLinks.style.display = 'flex';
-            navActions.style.display = 'flex';
-        }
-    });
-    
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -61,11 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     top: targetElement.offsetTop - 80,
                     behavior: 'smooth'
                 });
-                
-                // Close mobile menu if open
-                if (mobileMenuBtn.getAttribute('aria-expanded') === 'true') {
-                    mobileMenuBtn.click();
-                }
             }
         });
     });
