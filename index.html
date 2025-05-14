@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eldar.vrx</title>
+    <title>eldar.vrx | Modern Development</title>
     <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>About Me</h3>
+            <p>Hi I'm an HTML, CSS, JS frontend developer, making websites with sleek designs is my hobby and probably part time job too.</p>
+        </div>
+    </div>
+
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
@@ -16,9 +24,22 @@
             </div>
             <div class="nav-links" id="navLinks">
                 <a href="#features" class="nav-link">Features</a>
-                <a href="#about" class="nav-link">About</a>
+                <a href="#" class="nav-link" id="aboutLink">About</a>
                 <a href="#contact" class="nav-link">Contact</a>
+                <div class="mobile-nav-actions">
+                    <a href="#" class="login-link">Log in</a>
+                    <a href="#" class="signup-btn">Sign up</a>
+                </div>
             </div>
+            <div class="nav-actions">
+                <a href="#" class="login-link">Log in</a>
+                <a href="#" class="signup-btn">Sign up</a>
+            </div>
+            <button class="hamburger-menu" id="hamburgerMenu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
     </nav>
 
@@ -32,11 +53,11 @@
                     </h1>
                     <p class="hero-subtitle">Streamlined solutions for your development workflow</p>
                     <div class="hero-cta">
-                        <a href="https://example.com" class="primary-btn">
+                        <a href="https://example.com/get-started" class="primary-btn">
                             <span>Get started</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
-                        <a href="#" class="secondary-btn">
+                        <a href="https://example.com/demo" class="secondary-btn">
                             <i class="fas fa-play"></i>
                             <span>Watch demo</span>
                         </a>
@@ -67,27 +88,18 @@
             </div>
         </section>
 
-        <section class="about" id="about">
-            <div class="section-header">
-                <h2>About</h2>
-            </div>
-            <div class="about-content">
-                <p>Hi I'm an HTML, CSS, JS frontend developer, making websites with sleek designs is my hobby and probably part time job too.</p>
-            </div>
-        </section>
-
         <section class="contact" id="contact">
             <div class="section-header">
-                <h2>Contact</h2>
+                <h2>Contact Me</h2>
             </div>
             <div class="contact-links">
-                <a href="#" class="contact-link">
+                <a href="https://discord.com/users/yourdiscordid" class="contact-link discord">
                     <i class="fab fa-discord"></i>
                     <span>Discord - .xflsh</span>
                 </a>
-                <a href="#" class="contact-link">
+                <a href="https://instagram.com/alekberoff.el" class="contact-link instagram">
                     <i class="fab fa-instagram"></i>
-                    <span>Instagram - alekberoff.el</span>
+                    <span>Instagram @alekberoff.el</span>
                 </a>
             </div>
         </section>
@@ -106,7 +118,7 @@
                 </div>
                 <div class="footer-column">
                     <h4>Company</h4>
-                    <a href="#about">About</a>
+                    <a href="#" id="aboutLinkFooter">About</a>
                     <a href="#contact">Contact</a>
                 </div>
             </div>
