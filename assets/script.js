@@ -1,65 +1,144 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Animated title lines
-    document.querySelectorAll('.title-line span').forEach((line, index) => {
-        line.style.animationDelay = `${index * 0.1}s`;
-    });
-
-    // Floating cards animation
-    const floatCards = document.querySelectorAll('.float-card');
-    floatCards.forEach(card => {
-        let x = 0, y = 0;
+document.addEventListener('DOMContentLoaded', function() {
+    // Custom cursor effect
+    const cursor = document.querySelector('.cursor');
+    const cursorFollower = document.querySelector('.cursor-follower');
+    
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
         
-        document.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            x = (e.clientX - centerX) * 0.02;
-            y = (e.clientY - centerY) * 0.02;
-            
-            card.style.transform = `perspective(1000px) rotateX(${y}deg) rotateY(${x}deg) scale(1.02)`;
+        setTimeout(() => {
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        }, 100);
+    });
+    
+    // Cursor hover effects
+    const hoverElements = document.querySelectorAll('a, button, .feature-card, .nav-link');
+    
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursor.style.opacity = '0.5';
+            cursorFollower.style.width = '30px';
+            cursorFollower.style.height = '30px';
         });
-
-        card.addEventListener('mouseenter', () => {
-            card.style.transition = 'transform 0.3s ease-out';
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.opacity = '1';
+            cursorFollower.style.width = '40px';
+            cursorFollower.style.height = '40px';
         });
     });
-
-    // Smooth scroll for all links
+    
+    // Scroll animations
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.feature-card, .section-header, .testimonial-card');
+        
+        elements.forEach(el => {
+            const elementPosition = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementPosition < windowHeight - 100) {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }
+        });
+    };
+    
+    // Set initial state for animated elements
+    document.querySelectorAll('.feature-card, .section-header, .testimonial-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    // Run once on load
+    animateOnScroll();
+    
+    // Run on scroll
+    window.addEventListener('scroll', animateOnScroll);
+    
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const navActions = document.querySelector('.nav-actions');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            navLinks.style.display = 'none';
+            navActions.style.display = 'none';
+        } else {
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            navLinks.style.display = 'flex';
+            navActions.style.display = 'flex';
+        }
+    });
+    
+    // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                if (mobileMenuBtn.getAttribute('aria-expanded') === 'true') {
+                    mobileMenuBtn.click();
+                }
+            }
         });
     });
-
-    // Parallax effect for gradient overlay
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        document.querySelector('.gradient-overlay').style.transform = `translateY(${scrolled * 0.5}px)`;
-    });
-
-    // Dynamic blur on scroll
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        const navbar = document.querySelector('.navbar');
-        
-        if (currentScroll > lastScroll) {
-            navbar.style.backdropFilter = 'blur(24px)';
-        } else {
-            navbar.style.backdropFilter = 'blur(16px)';
+    
+    // Gradient animation for hero section
+    const heroGradient = document.querySelector('.hero-gradient');
+    let angle = 0;
+    
+    const animateGradient = () => {
+        angle = (angle + 0.2) % 360;
+        heroGradient.style.background = `rad-gradient(circle at center, rgba(121, 40, 202, 0.1) 0%, rgba(255, 0, 128, 0.05) 50%, transparent 70%)`;
+        requestAnimationFrame(animateGradient);
+    };
+    
+    animateGradient();
+    
+    // Floating animation for app window
+    const appWindow = document.querySelector('.app-window');
+    
+    const floatAnimation = () => {
+        appWindow.style.transform = `perspective(1000px) rotateY(-10deg) rotateX(5deg) translateY(${Math.sin(Date.now() / 1000) * 10}px)`;
+        requestAnimationFrame(floatAnimation);
+    };
+    
+    floatAnimation();
+    
+    // Typewriter effect for hero title (optional)
+    const heroTitle = document.querySelector('.hero-title');
+    const titleText = "The issue tracking tool you'll enjoy using";
+    let charIndex = 0;
+    
+    const typeWriter = () => {
+        if (charIndex < titleText.length) {
+            heroTitle.textContent += titleText.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeWriter, 50);
         }
-        
-        lastScroll = currentScroll;
-    });
+    };
+    
+    // Uncomment to enable typewriter effect
+    // heroTitle.textContent = '';
+    // setTimeout(typeWriter, 1000);
 });
