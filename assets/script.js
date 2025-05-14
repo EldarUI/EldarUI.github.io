@@ -1,121 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eldar.vrx</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="https://raw.githubusercontent.com/EldarUI/EldarUI.github.io/refs/heads/main/icons/circle-logo.png" alt="eldar.vrx logo" class="logo-img">
-                <span>eldar.vrx</span>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    <main>
-        <section class="hero">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="title-line">Modern development</span>
-                        <span class="title-line">for visionary teams</span>
-                    </h1>
-                    <p class="hero-subtitle">Streamlined solutions for your development workflow</p>
-                    <div class="hero-cta">
-                        <a href="https://example.com" class="primary-btn">
-                            <span>Get started</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="#" class="secondary-btn">
-                            <i class="fas fa-play"></i>
-                            <span>Watch demo</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features" id="features">
-            <div class="section-header">
-                <h2>Key Features</h2>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Performance</h3>
-                    <p>Optimized for speed and efficiency</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code-branch"></i>
-                    </div>
-                    <h3>Integration</h3>
-                    <p>Works with your existing tools</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="about" id="about">
-            <div class="section-header">
-                <h2>About</h2>
-            </div>
-            <div class="about-content">
-                <p>Hi I'm an HTML, CSS, JS frontend developer, making websites with sleek designs is my hobby and probably part time job too.</p>
-            </div>
-        </section>
-
-        <section class="contact" id="contact">
-            <div class="section-header">
-                <h2>Contact</h2>
-            </div>
-            <div class="contact-links">
-                <a href="#" class="contact-link">
-                    <i class="fab fa-discord"></i>
-                    <span>Discord - .xflsh</span>
-                </a>
-                <a href="#" class="contact-link">
-                    <i class="fab fa-instagram"></i>
-                    <span>Instagram - alekberoff.el</span>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="https://raw.githubusercontent.com/EldarUI/EldarUI.github.io/refs/heads/main/icons/circle-logo.png" alt="eldar.vrx logo" class="logo-img">
-                <span>eldar.vrx</span>
-            </div>
-            <div class="footer-links">
-                <div class="footer-column">
-                    <h4>Product</h4>
-                    <a href="#features">Features</a>
-                </div>
-                <div class="footer-column">
-                    <h4>Company</h4>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 eldar.vrx. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="assets/script.js"></script>
-</body>
-</html>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu functionality
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const navLinks = document.getElementById('navLinks');
+    
+    hamburgerMenu.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        
+        // Toggle body scroll when menu is open
+        if (navLinks.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Close menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks.classList.contains('active')) {
+                hamburgerMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // Modal functionality
+    const aboutModal = document.getElementById('aboutModal');
+    const aboutLinks = document.querySelectorAll('#aboutLink, #aboutLinkFooter');
+    const closeModal = document.querySelector('.close-modal');
+    
+    aboutLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            aboutModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    closeModal.addEventListener('click', () => {
+        aboutModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    
+    // Close modal when clicking outside
+    aboutModal.addEventListener('click', (e) => {
+        if (e.target === aboutModal) {
+            aboutModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Scroll animations
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.feature-card, .section-header');
+        
+        elements.forEach(el => {
+            const elementPosition = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementPosition < windowHeight - 100) {
+                el.classList.add('visible');
+            }
+        });
+    };
+    
+    // Run once on load
+    animateOnScroll();
+    
+    // Run on scroll
+    window.addEventListener('scroll', animateOnScroll);
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        if (!anchor.classList.contains('modal-trigger')) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+    });
+});
