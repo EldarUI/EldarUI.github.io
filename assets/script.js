@@ -1,5 +1,6 @@
+// script.js
 document.addEventListener('DOMContentLoaded', () => {
-    // Scroll animations for feature cards
+    // Scroll animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -7,18 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 entry.target.style.transform = 'translateY(0)';
             }
         });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Tilt animations
+    VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
+        max: 15,
+        speed: 400,
+        glare: true,
+        'max-glare': 0.2
     });
 
-    document.querySelectorAll('.feature-card').forEach((card) => {
-        card.style.opacity = 0;
-        card.style.transform = 'translateY(50px)';
-        card.style.transition = 'all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1)';
-        observer.observe(card);
-    });
-
-    // Smooth scroll for anchor links
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             document.querySelector(this.getAttribute('href')).scrollIntoView({
                 behavior: 'smooth'
