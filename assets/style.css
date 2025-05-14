@@ -345,6 +345,63 @@ body {
     color: var(--text-light);
 }
 
+/* About section */
+.about {
+    padding: 6rem 2rem;
+    background: var(--bg-dark);
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* Contact section */
+.contact {
+    padding: 6rem 2rem;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.contact-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.contact-link i {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient);
+    color: white;
+}
+
 /* Footer */
 .footer {
     background: var(--bg-dark);
@@ -524,7 +581,7 @@ body {
         padding: 5rem 1.5rem 3rem;
     }
     
-    .features {
+    .features, .about, .contact {
         padding: 4rem 1.5rem;
     }
     
