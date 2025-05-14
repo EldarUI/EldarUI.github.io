@@ -3,33 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Excellence</title>
+    <title>Linear | Issue Tracking for Modern Teams</title>
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="gradient-overlay"></div>
-    
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo-wrap">
-                <div class="logo-mask">
-                    <svg class="logo-shape" viewBox="0 0 40 40"><path d="M20 40a20 20 0 1 0 0-40 20 20 0 0 0 0 40zm0-8a12 12 0 1 1 0-24 12 12 0 0 1 0 24z"/></svg>
-                    <span class="logo-text">Linear</span>
-                </div>
+            <div class="logo">
+                <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M23 0C10.297 0 0 10.297 0 23C0 35.703 10.297 46 23 46C35.703 46 46 35.703 46 23C46 10.297 35.703 0 23 0ZM12.5 34.5C8.5 34.5 6 32 6 28V18C6 14 8.5 11.5 12.5 11.5H19.5C23.5 11.5 26 14 26 18V28C26 32 23.5 34.5 19.5 34.5H12.5Z" fill="url(#linear-gradient)"/>
+                    <defs>
+                        <linearGradient id="linear-gradient" x1="23" y1="0" x2="23" y2="46" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#7928CA"/>
+                            <stop offset="1" stop-color="#FF0080"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span>Linear</span>
             </div>
             <div class="nav-links">
-                <a href="#features" class="nav-link"><span>Features</span></a>
-                <a href="#methods" class="nav-link"><span>Methods</span></a>
-                <a href="#company" class="nav-link"><span>Company</span></a>
-                <a href="#careers" class="nav-link"><span>Careers</span></a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#blog" class="nav-link">Blog</a>
+                <a href="#docs" class="nav-link">Docs</a>
+                <a href="#changelog" class="nav-link">Changelog</a>
             </div>
             <div class="nav-actions">
-                <button class="nav-button login">Log in</button>
-                <button class="nav-button primary">Get Started</button>
+                <a href="#" class="login-link">Log in</a>
+                <a href="#" class="signup-btn">Sign up</a>
             </div>
             <button class="mobile-menu-btn">
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
+                <i class="fas fa-bars"></i>
             </button>
         </div>
     </nav>
@@ -39,33 +47,170 @@
             <div class="hero-container">
                 <div class="hero-content">
                     <h1 class="hero-title">
-                        <span class="title-line"><span>Modern</span></span>
-                        <span class="title-line"><span>Product</span></span>
-                        <span class="title-line"><span>Management</span></span>
+                        <span class="title-line">The issue tracking tool</span>
+                        <span class="title-line">you'll enjoy using</span>
                     </h1>
-                    <p class="hero-subtitle">Ship products that matter with the complete toolkit for<br>strategic planning, roadmaping, and delivery</p>
-                    <div class="hero-actions">
-                        <button class="hero-button primary">
-                            <span>Start Building</span>
-                            <div class="button-hover"></div>
-                        </button>
-                        <button class="hero-button ghost">
-                            <span>Watch Demo</span>
-                            <div class="button-hover"></div>
-                        </button>
+                    <p class="hero-subtitle">Linear streamlines software projects, sprints, tasks, and bug tracking. It's built for high-performance teams.</p>
+                    <div class="hero-cta">
+                        <a href="#" class="primary-btn">
+                            <span>Get started</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#" class="secondary-btn">
+                            <i class="fas fa-play"></i>
+                            <span>Watch video</span>
+                        </a>
+                    </div>
+                    <div class="hero-companies">
+                        <p>Trusted by the world's best teams</p>
+                        <div class="company-logos">
+                            <img src="https://via.placeholder.com/80x30/333/fff?text=Company" alt="Company logo">
+                            <img src="https://via.placeholder.com/80x30/333/fff?text=Company" alt="Company logo">
+                            <img src="https://via.placeholder.com/80x30/333/fff?text=Company" alt="Company logo">
+                            <img src="https://via.placeholder.com/80x30/333/fff?text=Company" alt="Company logo">
+                        </div>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="gradient-orb"></div>
-                    <div class="float-card card-1"></div>
-                    <div class="float-card card-2"></div>
-                    <div class="float-card card-3"></div>
+                <div class="hero-image">
+                    <div class="app-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control red"></span>
+                                <span class="control yellow"></span>
+                                <span class="control green"></span>
+                            </div>
+                        </div>
+                        <div class="window-content">
+                            <div class="app-sidebar"></div>
+                            <div class="app-main">
+                                <div class="issue-list">
+                                    <div class="issue-item"></div>
+                                    <div class="issue-item"></div>
+                                    <div class="issue-item"></div>
+                                    <div class="issue-item"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-gradient"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Additional sections would go here -->
+        <section class="features" id="features">
+            <div class="section-header">
+                <h2>Built for speed and efficiency</h2>
+                <p>Linear is designed to help you build better products faster.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Blazing fast</h3>
+                    <p>Optimized for speed with keyboard shortcuts and minimal UI friction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3>Connected workflows</h3>
+                    <p>Sync with GitHub, Slack, Figma and other tools you already use.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Real-time collaboration</h3>
+                    <p>Work together with your team in real-time with no lag or delays.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Powerful insights</h3>
+                    <p>Get detailed analytics and reports on your team's performance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile ready</h3>
+                    <p>Full-featured native apps for iOS and Android.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Enterprise-grade security</h3>
+                    <p>SOC 2 compliant with data encryption at rest and in transit.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="section-header">
+                <h2>Loved by product teams</h2>
+                <p>Join thousands of high-performing teams who use Linear to build better products.</p>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Linear has completely transformed how our team works. We're shipping features faster than ever before."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson">
+                        <div>
+                            <h4>Sarah Johnson</h4>
+                            <p>Product Lead, TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M23 0C10.297 0 0 10.297 0 23C0 35.703 10.297 46 23 46C35.703 46 46 35.703 46 23C46 10.297 35.703 0 23 0ZM12.5 34.5C8.5 34.5 6 32 6 28V18C6 14 8.5 11.5 12.5 11.5H19.5C23.5 11.5 26 14 26 18V28C26 32 23.5 34.5 19.5 34.5H12.5Z" fill="url(#linear-gradient)"/>
+                </svg>
+                <span>Linear</span>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <a href="#">Features</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Integrations</a>
+                    <a href="#">Changelog</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">Community</a>
+                    <a href="#">Tutorials</a>
+                    <a href="#">API</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2023 Linear. All rights reserved.</p>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
 
     <script src="assets/script.js"></script>
 </body>
