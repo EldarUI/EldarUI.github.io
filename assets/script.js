@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Scroll animations
     const animateOnScroll = () => {
-        const elements = document.querySelectorAll('.feature-card, .section-header, .testimonial-card');
+        const elements = document.querySelectorAll('.feature-card, .section-header');
         
         elements.forEach(el => {
             const elementPosition = el.getBoundingClientRect().top;
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Set initial state for animated elements
-    document.querySelectorAll('.feature-card, .section-header, .testimonial-card').forEach(el => {
+    document.querySelectorAll('.feature-card, .section-header').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -69,14 +69,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
-    // Floating animation for app window
-    const appWindow = document.querySelector('.app-window');
-    
-    const floatAnimation = () => {
-        appWindow.style.transform = `perspective(1000px) rotateY(-10deg) rotateX(5deg) translateY(${Math.sin(Date.now() / 1000) * 10}px)`;
-        requestAnimationFrame(floatAnimation);
-    };
-    
-    floatAnimation();
 });
