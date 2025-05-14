@@ -1,37 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Custom cursor effect
-    const cursor = document.querySelector('.cursor');
-    const cursorFollower = document.querySelector('.cursor-follower');
-    
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-        
-        setTimeout(() => {
-            cursorFollower.style.left = e.clientX + 'px';
-            cursorFollower.style.top = e.clientY + 'px';
-        }, 100);
-    });
-    
-    // Cursor hover effects
-    const hoverElements = document.querySelectorAll('a, button, .feature-card, .nav-link');
-    
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            cursor.style.opacity = '0.5';
-            cursorFollower.style.width = '30px';
-            cursorFollower.style.height = '30px';
-        });
-        
-        el.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursor.style.opacity = '1';
-            cursorFollower.style.width = '40px';
-            cursorFollower.style.height = '40px';
-        });
-    });
-    
     // Scroll animations
     const animateOnScroll = () => {
         const elements = document.querySelectorAll('.feature-card, .section-header, .testimonial-card');
@@ -103,18 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Gradient animation for hero section
-    const heroGradient = document.querySelector('.hero-gradient');
-    let angle = 0;
-    
-    const animateGradient = () => {
-        angle = (angle + 0.2) % 360;
-        heroGradient.style.background = `rad-gradient(circle at center, rgba(121, 40, 202, 0.1) 0%, rgba(255, 0, 128, 0.05) 50%, transparent 70%)`;
-        requestAnimationFrame(animateGradient);
-    };
-    
-    animateGradient();
-    
     // Floating animation for app window
     const appWindow = document.querySelector('.app-window');
     
@@ -124,21 +79,4 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     floatAnimation();
-    
-    // Typewriter effect for hero title (optional)
-    const heroTitle = document.querySelector('.hero-title');
-    const titleText = "The issue tracking tool you'll enjoy using";
-    let charIndex = 0;
-    
-    const typeWriter = () => {
-        if (charIndex < titleText.length) {
-            heroTitle.textContent += titleText.charAt(charIndex);
-            charIndex++;
-            setTimeout(typeWriter, 50);
-        }
-    };
-    
-    // Uncomment to enable typewriter effect
-    // heroTitle.textContent = '';
-    // setTimeout(typeWriter, 1000);
 });
