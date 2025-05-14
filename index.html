@@ -3,69 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next Platform</title>
+    <title>Linear Excellence</title>
     <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 </head>
 <body>
-    <!-- Animated Background Elements -->
-    <div class="gradient-blob"></div>
-    <div class="particle-network"></div>
+    <div class="gradient-overlay"></div>
     
-    <!-- Navigation -->
-    <nav class="main-nav" data-aos="fade-down">
+    <nav class="navbar">
         <div class="nav-container">
-            <div class="logo-wrapper">
-                <svg class="logo-icon">...</svg>
-                <span class="logo-text">Next</span>
+            <div class="logo-wrap">
+                <div class="logo-mask">
+                    <svg class="logo-shape" viewBox="0 0 40 40"><path d="M20 40a20 20 0 1 0 0-40 20 20 0 0 0 0 40zm0-8a12 12 0 1 1 0-24 12 12 0 0 1 0 24z"/></svg>
+                    <span class="logo-text">Linear</span>
+                </div>
             </div>
-            <div class="nav-menu">
-                <a href="#product" class="nav-link hvr-underline-grow">Product</a>
-                <a href="#solutions" class="nav-link hvr-underline-grow">Solutions</a>
-                <a href="#resources" class="nav-link hvr-underline-grow">Resources</a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link"><span>Features</span></a>
+                <a href="#methods" class="nav-link"><span>Methods</span></a>
+                <a href="#company" class="nav-link"><span>Company</span></a>
+                <a href="#careers" class="nav-link"><span>Careers</span></a>
             </div>
             <div class="nav-actions">
-                <button class="btn btn-secondary">Contact</button>
-                <button class="btn btn-primary">Get Started</button>
+                <button class="nav-button login">Log in</button>
+                <button class="nav-button primary">Get Started</button>
             </div>
+            <button class="mobile-menu-btn">
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content" data-aos="fade-up" data-aos-delay="300">
-            <h1 class="hero-title">
-                <span class="text-gradient">Build Tomorrow's</span>
-                <span class="typing-animation"></span>
-            </h1>
-            <p class="hero-subtitle">Enterprise-grade solution for modern teams</p>
-            <div class="cta-wrapper">
-                <button class="btn btn-primary btn-xl">Start Free Trial</button>
-                <button class="btn btn-outline btn-xl">Watch Demo</button>
+    <main>
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-line"><span>Modern</span></span>
+                        <span class="title-line"><span>Product</span></span>
+                        <span class="title-line"><span>Management</span></span>
+                    </h1>
+                    <p class="hero-subtitle">Ship products that matter with the complete toolkit for<br>strategic planning, roadmaping, and delivery</p>
+                    <div class="hero-actions">
+                        <button class="hero-button primary">
+                            <span>Start Building</span>
+                            <div class="button-hover"></div>
+                        </button>
+                        <button class="hero-button ghost">
+                            <span>Watch Demo</span>
+                            <div class="button-hover"></div>
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="gradient-orb"></div>
+                    <div class="float-card card-1"></div>
+                    <div class="float-card card-2"></div>
+                    <div class="float-card card-3"></div>
+                </div>
             </div>
-        </div>
-        <div class="hero-media" data-aos="zoom-in" data-aos-delay="600">
-            <div class="floating-card-stack">
-                <div class="card card-1" data-tilt></div>
-                <div class="card card-2" data-tilt></div>
-                <div class="card card-3" data-tilt></div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Feature Grid -->
-    <section class="features">
-        <div class="feature-grid">
-            <div class="feature-card" data-aos="fade-right">
-                <div class="feature-icon"></div>
-                <h3>AI-Powered Automation</h3>
-                <p>Smart workflow optimization with machine learning</p>
-            </div>
-            <!-- More feature cards -->
-        </div>
-    </section>
+        <!-- Additional sections would go here -->
+    </main>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="assets/script.js"></script>
 </body>
 </html>
