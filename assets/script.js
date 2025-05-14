@@ -1,32 +1,38 @@
 // script.js
 document.addEventListener('DOMContentLoaded', () => {
-    // Scroll animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Tilt animations
-    VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
-        max: 15,
-        speed: 400,
-        glare: true,
-        'max-glare': 0.2
+    // Initialize animations
+    AOS.init({
+        duration: 1000,
+        once: true,
+        easing: 'ease-in-out-quad'
     });
 
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+    // Parallax effect
+    document.addEventListener('mousemove', (e) => {
+        const cards = document.querySelectorAll('.card');
+        const x = (window.innerWidth - e.pageX * 2) / 50;
+        const y = (window.innerHeight - e.pageY * 2) / 50;
+        
+        cards.forEach(card => {
+            card.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
         });
     });
+
+    // Dynamic gradient adjustment
+    document.querySelectorAll('.text-gradient').forEach(element => {
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            element.style.setProperty('--gradient-pos', `${x}px ${y}px`);
+        });
+    });
+
+    // Typing animation
+    new TypeIt('.typing-animation', {
+        strings: ['Products', 'Platforms', 'Dreams'],
+        speed: 100,
+        breakLines: false,
+        loop: true
+    }).go();
 });
