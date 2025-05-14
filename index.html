@@ -3,70 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next-Gen Platform</title>
+    <title>Next Platform</title>
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 </head>
 <body>
-    <nav class="glass-nav">
+    <!-- Animated Background Elements -->
+    <div class="gradient-blob"></div>
+    <div class="particle-network"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav" data-aos="fade-down">
         <div class="nav-container">
-            <div class="logo-gradient">NextGen</div>
-            <div class="nav-links">
-                <a href="#product" class="hvr-underline">Product</a>
-                <a href="#solutions" class="hvr-underline">Solutions</a>
-                <a href="#resources" class="hvr-underline">Resources</a>
+            <div class="logo-wrapper">
+                <svg class="logo-icon">...</svg>
+                <span class="logo-text">Next</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#product" class="nav-link hvr-underline-grow">Product</a>
+                <a href="#solutions" class="nav-link hvr-underline-grow">Solutions</a>
+                <a href="#resources" class="nav-link hvr-underline-grow">Resources</a>
             </div>
             <div class="nav-actions">
-                <button class="btn ghost">Contact</button>
-                <button class="btn gradient-btn">Get Started</button>
+                <button class="btn btn-secondary">Contact</button>
+                <button class="btn btn-primary">Get Started</button>
             </div>
         </div>
     </nav>
 
-    <main>
-        <section class="hero-section">
-            <div class="grid-background"></div>
-            <div class="hero-content">
-                <h1 class="animated-heading">
-                    <span class="gradient-text">Build the Future</span><br>
-                    With Intelligent Design
-                </h1>
-                <p class="hero-subtitle">Transform your workflow with AI-powered collaboration</p>
-                <div class="cta-container">
-                    <button class="btn gradient-btn xl">Start Free Trial</button>
-                    <button class="btn outline-white xl">Watch Demo</button>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content" data-aos="fade-up" data-aos-delay="300">
+            <h1 class="hero-title">
+                <span class="text-gradient">Build Tomorrow's</span>
+                <span class="typing-animation"></span>
+            </h1>
+            <p class="hero-subtitle">Enterprise-grade solution for modern teams</p>
+            <div class="cta-wrapper">
+                <button class="btn btn-primary btn-xl">Start Free Trial</button>
+                <button class="btn btn-outline btn-xl">Watch Demo</button>
             </div>
-            <div class="floating-cards">
-                <div class="card glass-card" data-tilt>
-                    <div class="card-icon">🚀</div>
-                    <h3>AI Automation</h3>
-                    <p>Smart workflow optimization</p>
-                </div>
-                <div class="card glass-card" data-tilt>
-                    <div class="card-icon">🌐</div>
-                    <h3>Global Sync</h3>
-                    <p>Real-time collaboration</p>
-                </div>
+        </div>
+        <div class="hero-media" data-aos="zoom-in" data-aos-delay="600">
+            <div class="floating-card-stack">
+                <div class="card card-1" data-tilt></div>
+                <div class="card card-2" data-tilt></div>
+                <div class="card card-3" data-tilt></div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="features-section">
-            <div class="feature-grid">
-                <div class="feature-card reveal">
-                    <h3>Smart Integration</h3>
-                    <p>Connect with your favorite tools</p>
-                    <div class="feature-gradient"></div>
-                </div>
-                <div class="feature-card reveal">
-                    <h3>Security First</h3>
-                    <p>Enterprise-grade protection</p>
-                    <div class="feature-gradient"></div>
-                </div>
+    <!-- Feature Grid -->
+    <section class="features">
+        <div class="feature-grid">
+            <div class="feature-card" data-aos="fade-right">
+                <div class="feature-icon"></div>
+                <h3>AI-Powered Automation</h3>
+                <p>Smart workflow optimization with machine learning</p>
             </div>
-        </section>
-    </main>
+            <!-- More feature cards -->
+        </div>
+    </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="assets/script.js"></script>
 </body>
 </html>
