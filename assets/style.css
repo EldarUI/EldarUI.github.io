@@ -39,6 +39,12 @@ body {
     overflow-x: hidden;
 }
 
+/* Logo styles (restored for footer) */
+.logo-img {
+    height: 30px;
+    width: auto;
+}
+
 /* Hero section */
 .hero {
     min-height: 100vh;
